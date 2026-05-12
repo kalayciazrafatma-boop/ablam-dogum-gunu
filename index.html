@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>İyi ki Doğdun Ablacım!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a2e;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .book-container {
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .page {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .page img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .orchid {
+            position: absolute;
+            top: -50px;
+            font-size: 24px;
+            animation: fall linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .nav-buttons { margin-top: 20px; }
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #ff69b4;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="book-container">
+        <!-- Sayfa 1 -->
+        <div class="page active">
+            <img src="resim1.jpg" alt="Anı 1">
+            <p>Canım ablam, seninle olan bu ilk anımız hep kalbimde.</p>
+        </div>
+
+        <!-- Sayfa 2 -->
+        <div class="page">
+            <img src="resim2.jpg" alt="Anı 2">
+            <p>Her zaman yanımda olduğun için çok teşekkür ederim.</p>
+        </div>
+
+        <!-- Sayfa 3 -->
+        <div class="page">
+            <img src="resim3.jpg" alt="Anı 3">
+            <p>Gülüşün dünyamı aydınlatıyor!</p>
+        </div>
+
+        <!-- Sayfa 4 -->
+        <div class="page">
+            <img src="resim4.jpg" alt="Anı 4">
+            <p>Birlikte daha nice mutlu yıllara...</p>
+        </div>
+
+        <!-- Sayfa 5 -->
+        <div class="page">
+            <img src="resim5.jpg" alt="Anı 5">
+            <p>Sen sadece ablam değil, en iyi dostumsun.</p>
+        </div>
+
+        <!-- Sayfa 6 -->
+        <div class="page">
+            <img src="resim6.jpg" alt="Anı 6">
+            <p>İyi ki doğdun, iyi ki varsın! Seni çok seviyorum.</p>
+        </div>
+
+        <div class="nav-buttons">
+            <button onclick="changePage(-1)">Geri</button>
+            <button onclick="changePage(1)">İleri</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 0;
+        const pages = document.querySelectorAll('.page');
+
+        function changePage(step) {
+            pages[currentPage].classList.remove('active');
+            currentPage = (currentPage + step + pages.length) % pages.length;
+            pages[currentPage].classList.add('active');
+        }
+
+        function createOrchid() {
+            const orchid = document.createElement('div');
+            orchid.classList.add('orchid');
+            orchid.innerHTML = '🌸'; 
+            orchid.style.left = Math.random() * 100 + 'vw';
+            orchid.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(orchid);
+            setTimeout(() => { orchid.remove(); }, 5000);
+        }
+        setInterval(createOrchid, 300);
+    </script>
+</body>
+</html>
