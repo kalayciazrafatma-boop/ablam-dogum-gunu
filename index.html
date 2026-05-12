@@ -2,210 +2,204 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>İyi ki Doğdun Ablacım!</title>
+    <title>Seni Seviyorum Ablacım!</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #050510; /* Daha koyu arka plan */
-            color: white;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #1b002a 0%, #05000a 100%);
+            overflow: hidden; font-family: 'Georgia', serif;
+        }
+
+        #canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+
+        /* Kitap Sayfası Tasarımı */
+        .book-wrapper {
+            position: relative; z-index: 10;
+            display: flex; justify-content: center; align-items: center;
             height: 100vh;
         }
 
-        /* Havai fişek kanvası */
-        #fireworksCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .book-container {
+        .photo-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
             width: 80%;
-            max-width: 500px;
+            max-width: 450px;
             text-align: center;
-            z-index: 10;
-            position: relative;
-        }
-
-        .page {
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             display: none;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 192, 203, 0.3);
-            box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+            animation: slideIn 0.8s ease-out;
         }
 
-        .page.active { display: block; animation: fadeIn 1s ease-in; }
+        .photo-card.active { display: block; }
 
-        .page img {
-            width: 100%;
-            height: 300px;
+        .photo-card img {
+            width: 100%; height: 350px;
             object-fit: cover;
             border-radius: 10px;
-            margin-bottom: 15px;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
+        .photo-card p {
+            color: #ffcae5;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        /* Düşen Orkideler */
         .orchid {
-            position: fixed;
-            top: -50px;
-            font-size: 24px;
-            z-index: 5;
-            animation: fall linear forwards;
-            pointer-events: none;
+            position: fixed; top: -50px; z-index: 5;
+            font-size: 28px; user-select: none;
+            animation: orchidFall linear forwards;
         }
 
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
+        @keyframes orchidFall {
+            0% { transform: translateY(0) rotate(0deg) translateX(0); }
+            100% { transform: translateY(105vh) rotate(360deg) translateX(50px); }
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .nav-buttons { margin-top: 20px; }
-        button {
-            padding: 10px 20px;
-            cursor: pointer;
-            background: #ff69b4;
-            border: none;
-            color: white;
-            border-radius: 5px;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        @keyframes slideIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
+
+        /* Butonlar */
+        .nav { margin-top: 25px; }
+        .nav button {
+            background: #e91e63; color: white; border: none;
+            padding: 12px 25px; margin: 0 10px; border-radius: 30px;
+            cursor: pointer; font-size: 1rem; transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+        }
+        .nav button:hover { background: #ff4081; transform: translateY(-3px); }
     </style>
 </head>
 <body>
 
-    <canvas id="fireworksCanvas"></canvas>
+<canvas id="canvas"></canvas>
 
-    <div class="book-container">
-        <div class="page active">
-            <img src="resim1.jpg" alt="Anı 1">
-            <p>Canım ablam, ilk sayfamız seninle olan bu güzel ana ayrıldı.</p>
-        </div>
-        <div class="page">
-            <img src="resim2.jpg" alt="Anı 2">
-            <p>Her zaman gülümsemenle etrafını aydınlat.</p>
-        </div>
-        <div class="page">
-            <img src="resim3.jpg" alt="Anı 3">
-            <p>Hayatın bu orkideler kadar zarif ve güzel olsun.</p>
-        </div>
-        <div class="page">
-            <img src="resim4.jpg" alt="Anı 4">
-            <p>Birlikte daha nice maceralara!</p>
-        </div>
-        <div class="page">
-            <img src="resim5.jpg" alt="Anı 5">
-            <p>Senin kardeşin olduğum için çok şanslıyım.</p>
-        </div>
-        <div class="page">
-            <img src="resim6.jpg" alt="Anı 6">
-            <p>İyi ki doğdun ablacım! Seni çok seviyorum.</p>
-        </div>
-
-        <div class="nav-buttons">
-            <button onclick="changePage(-1)">Geri</button>
-            <button onclick="changePage(1)">İleri</button>
-        </div>
+<div class="book-wrapper">
+    <!-- Sayfalar - Resim yollarını GitHub'daki dosya isimlerinle aynı yap! -->
+    <div class="photo-card active">
+        <img src="resim1.jpg" alt="Ablamla Anımız">
+        <p>Dünyanın en tatlı ablasına... İlk sayfamız senin o güzel gülüşüne ayrıldı.</p>
+        <div class="nav"><button onclick="nextPage()">Sonraki Sayfa →</button></div>
     </div>
 
-    <script>
-        // Sayfa Değiştirme
-        let currentPage = 0;
-        const pages = document.querySelectorAll('.page');
-        function changePage(step) {
-            pages[currentPage].classList.remove('active');
-            currentPage = (currentPage + step + pages.length) % pages.length;
-            pages[currentPage].classList.add('active');
-            // Sayfa her değiştiğinde bir kelebek patlat
-            createButterflyFirework(window.innerWidth / 2, window.innerHeight / 2);
-        }
+    <div class="photo-card">
+        <img src="resim2.jpg" alt="Anı 2">
+        <p>Birlikte paylaştığımız her an benim için bir hazine.</p>
+        <div class="nav"><button onclick="nextPage()">Devam Et →</button></div>
+    </div>
 
-        // Orkide Düşürme
-        function createOrchid() {
-            const orchid = document.createElement('div');
-            orchid.classList.add('orchid');
-            orchid.innerHTML = '🌸'; 
-            orchid.style.left = Math.random() * 100 + 'vw';
-            orchid.style.animationDuration = (Math.random() * 3 + 4) + 's';
-            document.body.appendChild(orchid);
-            setTimeout(() => { orchid.remove(); }, 6000);
-        }
-        setInterval(createOrchid, 500);
+    <div class="photo-card">
+        <img src="resim3.jpg" alt="Anı 3">
+        <p>Senin gibi bir ablam olduğu için çok şanslıyım.</p>
+        <div class="nav"><button onclick="nextPage()">Devam Et →</button></div>
+    </div>
 
-        // Kelebek Havai Fişek Sistemi (Canvas)
-        const canvas = document.getElementById('fireworksCanvas');
-        const ctx = canvas.getContext('2d');
+    <div class="photo-card">
+        <img src="resim4.jpg" alt="Anı 4">
+        <p>Hayatın bu düşen çiçekler kadar zarif ve renkli olsun.</p>
+        <div class="nav"><button onclick="nextPage()">Devam Et →</button></div>
+    </div>
+
+    <div class="photo-card">
+        <img src="resim5.jpg" alt="Anı 5">
+        <p>Desteğin ve sevgin için teşekkürler canım ablam.</p>
+        <div class="nav"><button onclick="nextPage()">Devam Et →</button></div>
+    </div>
+
+    <div class="photo-card">
+        <img src="resim6.jpg" alt="Anı 6">
+        <p>İyi ki doğdun! Seni dünyalar kadar çok seviyorum. ❤️</p>
+        <div class="nav"><button onclick="nextPage()">Başa Dön</button></div>
+    </div>
+</div>
+
+<script>
+    // Sayfa Geçiş Sistemi
+    let current = 0;
+    const cards = document.querySelectorAll('.photo-card');
+    function nextPage() {
+        cards[current].classList.remove('active');
+        current = (current + 1) % cards.length;
+        cards[current].classList.add('active');
+        // Sayfa değişince büyük bir kelebek havai fişek patlat
+        createFirework(window.innerWidth/2, window.innerHeight/2);
+    }
+
+    // Orkide Düşürme (Orkideye en çok benzeyen karakterler)
+    function spawnOrchid() {
+        const o = document.createElement('div');
+        o.className = 'orchid';
+        const types = ['💮', '🏵️', '🌺']; // Orkidemsi çiçekler
+        o.innerText = types[Math.floor(Math.random()*types.length)];
+        o.style.left = Math.random() * 100 + 'vw';
+        o.style.animationDuration = (Math.random() * 4 + 4) + 's';
+        document.body.appendChild(o);
+        setTimeout(() => o.remove(), 8000);
+    }
+    setInterval(spawnOrchid, 400);
+
+    // Kelebek Havai Fişek Algoritması
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    function createFirework(x, y) {
+        const color = `hsl(${Math.random() * 360}, 100%, 75%)`;
+        for (let i = 0; i < 150; i++) {
+            const t = (i / 150) * Math.PI * 2;
+            // Kelebek Eğrisi Formülü (Butterfly Curve)
+            const r = Math.exp(Math.sin(t)) - 2 * Math.cos(4 * t) + Math.pow(Math.sin((2 * t - Math.PI) / 24), 5);
+            const s = r * 3; 
+            particles.push({
+                x: x, y: y,
+                vx: Math.cos(t) * s,
+                vy: -Math.sin(t) * s,
+                alpha: 1,
+                color: color
+            });
+        }
+    }
+
+    function render() {
+        ctx.fillStyle = 'rgba(5, 0, 10, 0.15)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach((p, i) => {
+            p.x += p.vx; p.y += p.vy;
+            p.alpha -= 0.01;
+            ctx.globalAlpha = p.alpha;
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+            ctx.fill();
+            if(p.alpha <= 0) particles.splice(i, 1);
+        });
+        requestAnimationFrame(render);
+    }
+    render();
+
+    // Otomatik patlamalar
+    setInterval(() => {
+        createFirework(Math.random()*canvas.width, Math.random()*canvas.height);
+    }, 2500);
+
+    window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+    });
+</script>
 
-        let particles = [];
-
-        class Particle {
-            constructor(x, y, color, angle, speed) {
-                this.x = x;
-                this.y = y;
-                this.color = color;
-                this.size = Math.random() * 3 + 1;
-                this.velocity = { x: Math.cos(angle) * speed, y: Math.sin(angle) * speed };
-                this.alpha = 1;
-            }
-            draw() {
-                ctx.globalAlpha = this.alpha;
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            update() {
-                this.x += this.velocity.x;
-                this.y += this.velocity.y;
-                this.alpha -= 0.01;
-            }
-        }
-
-        function createButterflyFirework(x, y) {
-            const color = `hsl(${Math.random() * 360}, 100%, 70%)`;
-            // Kelebek kanat formu için matematiksel döngü
-            for (let i = 0; i < 100; i++) {
-                const angle = (i / 100) * Math.PI * 2;
-                // Kelebek eğrisi formülü (basitleştirilmiş)
-                const r = (Math.exp(Math.cos(angle)) - 2 * Math.cos(4 * angle) + Math.pow(Math.sin(angle / 12), 5));
-                const speed = r * 2;
-                particles.push(new Particle(x, y, color, angle, speed));
-            }
-        }
-
-        function animate() {
-            ctx.fillStyle = 'rgba(5, 5, 16, 0.2)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            particles.forEach((p, i) => {
-                if (p.alpha > 0) {
-                    p.update();
-                    p.draw();
-                } else {
-                    particles.splice(i, 1);
-                }
-            });
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // Rastgele aralıklarla kelebek patlat
-        setInterval(() => {
-            createButterflyFirework(Math.random() * canvas.width, Math.random() * canvas.height);
-        }, 2000);
-    </script>
 </body>
 </html>
