@@ -3,169 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <title>Seni Seviyorum Ablacım!</title>
+
     <style>
         body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Georgia', serif;
             background: radial-gradient(circle, #1b002a 0%, #05000a 100%);
-            overflow: hidden; font-family: 'Georgia', serif;
         }
 
-        #canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
 
-        /* Kitap Sayfası Tasarımı */
         .book-wrapper {
-            position: relative; z-index: 10;
-            display: flex; justify-content: center; align-items: center;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
+            padding: 15px;
         }
 
         .photo-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 20px;
-            width: 80%;
-            max-width: 450px;
+            width: 85%;
+            max-width: 470px;
+            padding: 28px;
+            border-radius: 22px;
             text-align: center;
+
+            background: rgba(255,255,255,0.07);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.12);
+
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+
             display: none;
-            animation: slideIn 0.8s ease-out;
+
+            animation: fadeIn 0.8s ease;
         }
 
-        .photo-card.active { display: block; }
+        .photo-card.active {
+            display: block;
+        }
 
         .photo-card img {
-            width: 100%; height: 350px;
+            width: 100%;
+            height: 360px;
             object-fit: cover;
-            border-radius: 10px;
+
+            border-radius: 12px;
             border: 5px solid white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+
+            box-shadow: 0 10px 20px rgba(0,0,0,0.35);
         }
 
         .photo-card p {
-            color: #ffcae5;
-            font-size: 1.2rem;
-            margin-top: 20px;
-            line-height: 1.6;
-            text-shadow: 1px 1px 2px black;
+            color: #ffd6e7;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-top: 22px;
+
+            text-shadow: 1px 1px 3px black;
         }
 
-        /* Düşen Orkideler */
+        .nav {
+            margin-top: 24px;
+        }
+
+        .nav button {
+            background: #e91e63;
+            color: white;
+            border: none;
+
+            padding: 12px 24px;
+            border-radius: 30px;
+
+            cursor: pointer;
+
+            font-size: 1rem;
+            transition: 0.3s;
+
+            box-shadow: 0 5px 18px rgba(233, 30, 99, 0.45);
+        }
+
+        .nav button:hover {
+            background: #ff4081;
+            transform: translateY(-3px);
+        }
+
+        /* Düşen çiçekler */
         .orchid {
-            position: fixed; top: -50px; z-index: 5;
-            font-size: 28px; user-select: none;
+            position: fixed;
+            top: -50px;
+            z-index: 5;
+            font-size: 28px;
+            user-select: none;
+
             animation: orchidFall linear forwards;
         }
 
         @keyframes orchidFall {
-            0% { transform: translateY(0) rotate(0deg) translateX(0); }
-            100% { transform: translateY(105vh) rotate(360deg) translateX(50px); }
+            0% {
+                transform: translateY(0) rotate(0deg) translateX(0);
+            }
+            100% {
+                transform: translateY(105vh) rotate(360deg) translateX(60px);
+            }
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: scale(0.9) translateY(20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.92) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
-
-        /* Butonlar */
-        .nav { margin-top: 25px; }
-        .nav button {
-            background: #e91e63; color: white; border: none;
-            padding: 12px 25px; margin: 0 10px; border-radius: 30px;
-            cursor: pointer; font-size: 1rem; transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
-        }
-        .nav button:hover { background: #ff4081; transform: translateY(-3px); }
     </style>
 </head>
+
 <body>
 
 <canvas id="canvas"></canvas>
 
 <div class="book-wrapper">
-    <!-- Sayfalar - Resim yollarını GitHub'daki dosya isimlerinle aynı yap! -->
+
+    <!-- EN YENİ FOTOĞRAF -->
     <div class="photo-card active">
-        <img src="resim1.jpg" alt="Ablamla Anımız">
-        <p>Dünyanın en tatlı ablasına... İlk sayfamız senin o güzel gülüşüne ayrıldı.</p>
-        <div class="nav"><button onclick="nextPage()">Sonraki Sayfa →</button></div>
+        <img src="resim1.jpeg" alt="En Yeni Fotoğraf">
+
+        <p>
+            Zaman geçse de değişmeyen tek şey,
+            sana olan sevgim oldu ablacım...
+            Bu fotoğrafa her baktığımda
+            kendimi güvende hissediyorum.
+            Çünkü hayatımın en güzel anılarında hep sen varsın. ❤️
+        </p>
+
+        <div class="nav">
+            <button onclick="nextPage()">Sonraki Sayfa →</button>
+        </div>
     </div>
 
+    <!-- 2. FOTOĞRAF -->
     <div class="photo-card">
-        <img src="resim2.jpg" alt="Anı 2">
-        <p>Birlikte paylaştığımız her an benim için bir hazine.</p>
-        <div class="nav"><button onclick="nextPage()">Devam Et →</button></div>
+        <img src="resim2.jpeg" alt="Fotoğraf 2">
+
+        <p>
+            İnsan bazen bazı insanlara
+            neden bu kadar bağlı olduğunu anlatamaz...
+            Ben de anlatamam belki ama şunu biliyorum:
+            Sen benim sadece ablam değil,
+            aynı zamanda en güzel sığınağımsın.
+        </p>
+
+        <div class="nav">
+            <button onclick="nextPage()">Devam Et →</button>
+        </div>
     </div>
 
+    <!-- 3. FOTOĞRAF -->
     <div class="photo-card">
-        <img src="resim3.jpg" alt="Anı 3">
-        <p>Senin gibi bir ablam olduğu için çok şanslıyım.</p>
-        <div class="nav"><button onclick="nextPage()">Devam Et →</button></div>
+        <img src="resim3.jpeg" alt="Fotoğraf 3">
+
+        <p>
+            Küçükken tuttuğun elim,
+            büyüdüğümde bile içimi huzurla doldurdu.
+            Ne zaman yorulsam,
+            senin varlığın bana güç verdi.
+            İyi ki benim ablamsın...
+        </p>
+
+        <div class="nav">
+            <button onclick="nextPage()">Devam Et →</button>
+        </div>
     </div>
 
+    <!-- EN ESKİ FOTOĞRAF -->
     <div class="photo-card">
-        <img src="resim4.jpg" alt="Anı 4">
-        <p>Hayatın bu düşen çiçekler kadar zarif ve renkli olsun.</p>
-        <div class="nav"><button onclick="nextPage()">Devam Et →</button></div>
+        <img src="resim4.jpeg" alt="En Eski Fotoğraf">
+
+        <p>
+            Belki yıllar geçti...
+            Belki her şey değişti...
+            Ama çocukluğumun en güzel hatıralarında
+            hep sen vardın.
+            İyi ki hayatımdasın canım ablam.
+            Seni çok seviyorum... 💖
+        </p>
+
+        <div class="nav">
+            <button onclick="nextPage()">Başa Dön ↺</button>
+        </div>
     </div>
 
-    <div class="photo-card">
-        <img src="resim5.jpg" alt="Anı 5">
-        <p>Desteğin ve sevgin için teşekkürler canım ablam.</p>
-        <div class="nav"><button onclick="nextPage()">Devam Et →</button></div>
-    </div>
-
-    <div class="photo-card">
-        <img src="resim6.jpg" alt="Anı 6">
-        <p>İyi ki doğdun! Seni dünyalar kadar çok seviyorum. ❤️</p>
-        <div class="nav"><button onclick="nextPage()">Başa Dön</button></div>
-    </div>
 </div>
 
 <script>
-    // Sayfa Geçiş Sistemi
+
+    // SAYFA GEÇİŞLERİ
     let current = 0;
     const cards = document.querySelectorAll('.photo-card');
+
     function nextPage() {
+
         cards[current].classList.remove('active');
+
         current = (current + 1) % cards.length;
+
         cards[current].classList.add('active');
-        // Sayfa değişince büyük bir kelebek havai fişek patlat
-        createFirework(window.innerWidth/2, window.innerHeight/2);
+
+        createFirework(
+            window.innerWidth / 2,
+            window.innerHeight / 2
+        );
     }
 
-    // Orkide Düşürme (Orkideye en çok benzeyen karakterler)
+    // DÜŞEN ÇİÇEKLER
     function spawnOrchid() {
-        const o = document.createElement('div');
-        o.className = 'orchid';
-        const types = ['💮', '🏵️', '🌺']; // Orkidemsi çiçekler
-        o.innerText = types[Math.floor(Math.random()*types.length)];
-        o.style.left = Math.random() * 100 + 'vw';
-        o.style.animationDuration = (Math.random() * 4 + 4) + 's';
-        document.body.appendChild(o);
-        setTimeout(() => o.remove(), 8000);
-    }
-    setInterval(spawnOrchid, 400);
 
-    // Kelebek Havai Fişek Algoritması
+        const flower = document.createElement('div');
+
+        flower.className = 'orchid';
+
+        const flowers = ['🌸', '💮', '🌺', '🏵️'];
+
+        flower.innerText =
+            flowers[Math.floor(Math.random() * flowers.length)];
+
+        flower.style.left = Math.random() * 100 + 'vw';
+
+        flower.style.animationDuration =
+            (Math.random() * 4 + 4) + 's';
+
+        document.body.appendChild(flower);
+
+        setTimeout(() => {
+            flower.remove();
+        }, 8000);
+    }
+
+    setInterval(spawnOrchid, 350);
+
+    // KELEBEK HAVAI FİŞEK
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
+
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
     let particles = [];
 
     function createFirework(x, y) {
-        const color = `hsl(${Math.random() * 360}, 100%, 75%)`;
-        for (let i = 0; i < 150; i++) {
-            const t = (i / 150) * Math.PI * 2;
-            // Kelebek Eğrisi Formülü (Butterfly Curve)
-            const r = Math.exp(Math.sin(t)) - 2 * Math.cos(4 * t) + Math.pow(Math.sin((2 * t - Math.PI) / 24), 5);
-            const s = r * 3; 
+
+        const color =
+            `hsl(${Math.random() * 360}, 100%, 75%)`;
+
+        for (let i = 0; i < 160; i++) {
+
+            const t = (i / 160) * Math.PI * 2;
+
+            const r =
+                Math.exp(Math.sin(t))
+                - 2 * Math.cos(4 * t)
+                + Math.pow(
+                    Math.sin((2 * t - Math.PI) / 24),
+                    5
+                );
+
+            const speed = r * 3;
+
             particles.push({
-                x: x, y: y,
-                vx: Math.cos(t) * s,
-                vy: -Math.sin(t) * s,
+                x: x,
+                y: y,
+                vx: Math.cos(t) * speed,
+                vy: -Math.sin(t) * speed,
                 alpha: 1,
                 color: color
             });
@@ -173,32 +296,53 @@
     }
 
     function render() {
-        ctx.fillStyle = 'rgba(5, 0, 10, 0.15)';
+
+        ctx.fillStyle = 'rgba(5,0,10,0.15)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         particles.forEach((p, i) => {
-            p.x += p.vx; p.y += p.vy;
+
+            p.x += p.vx;
+            p.y += p.vy;
+
             p.alpha -= 0.01;
+
             ctx.globalAlpha = p.alpha;
+
             ctx.fillStyle = p.color;
+
             ctx.beginPath();
             ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
             ctx.fill();
-            if(p.alpha <= 0) particles.splice(i, 1);
+
+            if (p.alpha <= 0) {
+                particles.splice(i, 1);
+            }
         });
+
         requestAnimationFrame(render);
     }
+
     render();
 
-    // Otomatik patlamalar
+    // OTOMATİK HAVAİ FİŞEKLER
     setInterval(() => {
-        createFirework(Math.random()*canvas.width, Math.random()*canvas.height);
+
+        createFirework(
+            Math.random() * canvas.width,
+            Math.random() * canvas.height
+        );
+
     }, 2500);
 
+    // EKRAN BOYUTU
     window.addEventListener('resize', () => {
+
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+
     });
+
 </script>
 
 </body>
